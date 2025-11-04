@@ -40,6 +40,20 @@ These are optimized, materialized tables with proper data types and clustering. 
 - ✓ Clustered by `sample_id` for fast queries
 - ✓ Best query performance
 
+### Lookup/Reference Tables (src_*)
+
+These tables provide metadata and mappings to interpret the main data tables.
+
+| Table Name | Description | Purpose |
+|------------|-------------|---------|
+| `src_sample_id_map` | Maps MD5 hash sample_id to SRA accessions and study info | Join this table to get SRA run IDs, sample names, and study names |
+| `sra_accessions` | Complete SRA metadata from NCBI | Comprehensive SRA sample and study information |
+
+**Key Features:**
+- ✓ Essential for linking sample_id to original SRA accessions
+- ✓ Enables filtering by study name or sample metadata
+- ✓ Small tables suitable for JOINs
+
 ### Source Views (src_*) - For Development
 
 Lightweight views that add sample_id extraction. No storage cost but slower queries.
@@ -239,7 +253,48 @@ HAVING present_in_samples > 1  -- Markers present in multiple samples
 ORDER BY present_in_samples DESC;
 ```
 
-### Example 7: Export Data to Google Cloud Storage
+### Example 7: Map Sample IDs to SRA Accessions and Studies
+
+```sql
+-- Get taxonomic profiles with SRA metadata and study information
+SELECT
+    map.study_name,
+    map.run_ids,
+    map.sample_name,
+    data.sample_id,
+    data.clade_name,
+    data.relative_abundance
+FROM `curatedmetagenomicdata.curatedmetagenomicsdata.stg_marker_rel_ab_w_read_stats` AS data
+JOIN `curatedmetagenomicdata.curatedmetagenomicsdata.src_sample_id_map` AS map
+    ON data.sample_id = map.sample_id
+WHERE
+    map.study_name = 'LiJ_2017'  -- Filter by specific study
+    AND data.clade_name LIKE 'k__%'  -- Kingdom level only
+ORDER BY data.relative_abundance DESC
+LIMIT 100;
+```
+
+**Why this is useful:** The `sample_id` in data tables is an MD5 hash. Join with `src_sample_id_map` to get human-readable SRA run IDs, sample names, and study names.
+
+### Example 8: Find All Samples from Specific Studies
+
+```sql
+-- Get all sample IDs and metadata for samples from multiple studies
+SELECT
+    map.sample_id,
+    map.run_ids,
+    map.sample_name,
+    map.study_name,
+    COUNT(DISTINCT data.marker_id) as marker_count
+FROM `curatedmetagenomicdata.curatedmetagenomicsdata.src_sample_id_map` AS map
+LEFT JOIN `curatedmetagenomicdata.curatedmetagenomicsdata.stg_marker_abundance` AS data
+    ON map.sample_id = data.sample_id
+WHERE map.study_name IN ('LiJ_2017', 'KieserS_2017')
+GROUP BY map.sample_id, map.run_ids, map.sample_name, map.study_name
+ORDER BY marker_count DESC;
+```
+
+### Example 9: Export Data to Google Cloud Storage
 
 ```sql
 EXPORT DATA OPTIONS(
@@ -363,6 +418,20 @@ LIMIT 1000;
 | assigned_taxonomy | STRING | Taxonomic assignment |
 | first_genome_in_cluster | STRING | Reference genome |
 | other_genomes_in_cluster | STRING | Alternative genomes |
+
+### src_sample_id_map (Lookup Table)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| sample_id | STRING | MD5 hash identifier used throughout data tables (e.g., `96590c0f73176f4ab57a01297d849cf5`) |
+| run_ids | STRING | SRA run accession(s) for this sample (e.g., `ERR1398129`) |
+| sample_name | STRING | Original sample name from the study (e.g., `nHF511704`) |
+| study_name | STRING | Study identifier from curatedMetagenomicData (e.g., `LiJ_2017`) |
+
+**Usage:** Join this table with any data table on `sample_id` to get SRA accessions and study information. This is essential for:
+- Filtering data by study
+- Linking to external SRA metadata
+- Creating human-readable reports with sample names instead of MD5 hashes
 
 ## Getting Help
 

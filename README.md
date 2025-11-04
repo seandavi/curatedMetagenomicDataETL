@@ -32,3 +32,18 @@ Files stored per sample include:
 | `metaphlan_lists/metaphlan_unknown_list.tsv.gz` | List of unknown taxa identified in the sample, two columns: taxon identifier and count of unknown reads. |
 | `metaphlan_lists/metaphlan_viruses_list.tsv.gz` | List of viral taxa identified in the sample, two columns: taxon identifier and count of viral reads. |
 | `strainphlan_markers/metaphlan.json.bz2` | strainphlan marker information for the sample in JSON format. |
+
+### Sample ID Mapping
+
+The `sample_id` used throughout the ETL pipeline is an MD5 hash that uniquely identifies each sample. To map these hashes back to their original SRA accessions and study information, we maintain a `sample_id_map` table in BigQuery.
+
+The mapping table (`src_sample_id_map`) contains:
+
+| Field | Description |
+| ----- | ----------- |
+| `sample_id` | MD5 hash used as the sample identifier (e.g., `96590c0f73176f4ab57a01297d849cf5`) |
+| `run_ids` | SRA run accession(s) associated with this sample (e.g., `ERR1398129`) |
+| `sample_name` | Original sample name from the study (e.g., `nHF511704`) |
+| `study_name` | Study identifier from curatedMetagenomicData (e.g., `LiJ_2017`) |
+
+This table is loaded from `sample_id_map.csv` using the `load_sample_id_map_to_bigquery.py` script.
