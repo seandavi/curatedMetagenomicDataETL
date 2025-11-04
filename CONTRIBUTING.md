@@ -54,8 +54,8 @@ We actively welcome your pull requests:
 ### Prerequisites
 
 - Python 3.11 or higher
-- [uv](https://github.com/astral-sh/uv) package manager
-- [just](https://github.com/casey/just) task runner
+- [uv](https://github.com/astral-sh/uv) package manager - Fast Python package installer and resolver
+- [just](https://github.com/casey/just) task runner - Command runner similar to make
 - Google Cloud credentials (for BigQuery operations)
 
 ### Initial Setup
