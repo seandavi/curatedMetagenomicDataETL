@@ -28,15 +28,33 @@ This repository contains the ETL (Extract, Transform, Load) pipeline for the cur
 # Install dependencies (uv should already be installed)
 uv sync
 
-# Activate virtual environment
-source .venv/bin/activate
+# Or use justfile
+just install-deps
 ```
 
-### Running Code
+### Running the Pipeline
 ```bash
-# The project is in early development - no main.py exists yet
-# Python scripts will be run directly as they are developed
-python your_script.py
+# See all available commands
+just --list
+
+# Run the complete pipeline
+just setup
+
+# Run individual steps
+just create-external-tables
+just load-reference-tables
+just create-src-stg-tables
+just gather-metadata
+
+# Validation and testing
+just test-tables
+just show-tables
+```
+
+### Manual Script Execution
+```bash
+# Run Python scripts directly if needed
+uv run script_name.py
 ```
 
 ## Data Architecture
@@ -59,10 +77,91 @@ Each sample in `gs://cmgd-data/results/cMDv4/{sample_id}/` contains:
 
 ### ETL Design Considerations
 
+The pipeline follows a three-layer approach inspired by dbt best practices:
+
+1. **External Tables (ext_*)**: Point directly to raw gzipped TSV files in GCS
+   - No data movement
+   - Schema inference from files
+   - Capture `_FILE_NAME` for sample_id extraction
+
+2. **Source Views (src_*)**: Lightweight views that add computed columns
+   - Extract `sample_id` from file path using REGEXP_EXTRACT
+   - No data storage, just transformation logic
+   - Fast to recreate, no storage cost
+
+3. **Staging Tables (stg_*)**: Materialized tables with optimizations
+   - Proper data types (FLOAT64, INT64 instead of STRING)
+   - Clustered by `sample_id` for query performance
+   - Handle NULL values and edge cases
+   - Full refresh pattern for simplicity
+
+4. **Reference Tables**: Lookup and metadata tables
+   - `src_sample_id_map`: Maps MD5 hash sample_id to SRA accessions and study names
+   - `sra_accessions`: Full NCBI SRA metadata for linking
+
+**Design Principles**:
 - **Scale**: 60,000+ samples require parallelization and batch processing
 - **Memory**: Use streaming/chunked processing to avoid loading all samples into memory
 - **Storage**: Leverage columnar formats (Parquet) for efficient compression and query performance
 - **Cloud Integration**: GCS for source data, BigQuery for processing, R2 for distribution
+- **Flexibility**: Easy to update transformations by recreating views
+- **Performance**: Materialized staging tables for production queries
+- **Cost Efficiency**: External tables avoid duplicate storage
+
+## Pipeline Execution
+
+The ETL pipeline has clear dependencies. Use the provided `justfile` to manage execution:
+
+### Quick Start
+```bash
+# Run the entire pipeline from scratch
+just setup
+
+# See all available commands
+just --list
+```
+
+### Execution Order
+
+**Step 1: Create External Tables** (Required first, ~1-2 min)
+```bash
+just create-external-tables
+```
+
+**Step 2: Load Reference Tables** (Required, 20-30 min total)
+```bash
+just load-reference-tables
+# Runs: load-sample-id-map (~1 min) + load-sra-accessions (~20-30 min)
+```
+
+**Step 3: Create Source/Staging Tables** (30-60 min, processes ~400GB)
+```bash
+just create-src-stg-tables
+```
+
+**Step 4: Gather Metadata** (Optional, ~1-2 min)
+```bash
+just gather-metadata
+```
+
+### Pipeline Dependencies
+```
+create-external-tables
+         ↓
+load-reference-tables
+    ↓            ↓
+    (sample_id_map + sra_accessions)
+         ↓
+create-src-stg-tables
+         ↓
+gather-metadata
+```
+
+**Why this order matters:**
+1. External tables must exist before source views can reference them
+2. Reference tables enable JOINs for querying by study or SRA accession
+3. Source/staging tables depend on external tables existing
+4. Metadata gathering should run last to capture all created tables
 
 ## Project Context
 

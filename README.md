@@ -1,49 +1,64 @@
 # curatedMetagenomicDataETL
 
-This package contains the code and documentation for the ETL (Extract, Transform, Load) process used in the curatedMetagenomicData project. The scope of the ETL process is to take the csv/tsv files output PER SAMPLE from the [curatedMetagenomicsNextflow](https://github.com/seandavi/curatedMetagenomicsNextflow) pipeline and load them into a structured database and parquet files for easy access and analysis. 
+ETL pipeline for the [curatedMetagenomicData](https://github.com/waldronlab/curatedMetagenomicData) project, transforming 60,000+ per-sample metagenomic profiles into queryable BigQuery tables and distributable Parquet files.
 
-Since the data are stored PER SAMPLE, the ETL process involves combining data from multiple samples into unified tables for each data type (e.g., taxonomic profiles, functional profiles, metadata). 
+## Quick Start
 
-Technologies used in this ETL process include Python, duckdb, parquet, and BigQuery. Since there are over 60000 samples, the ETL process is designed to be efficient and scalable, leveraging parallel processing and optimized data storage formats. 
+```bash
+# Install dependencies
+uv sync
 
-We plan to use BigQuery for the initial loading and querying of the data, and then export the final tables as parquet files for distribution on cloudflare R2 and further analysis using duckdb.
+# Run the complete ETL pipeline
+just setup
 
-## Background
+# See all available commands
+just --list
+```
 
-The curatedMetagenomicData project is a combinination of efforts to provide curated metadata and uniformly processed metagenomic data sets to the scientific community. The data sets are derived from publicly available metagenomic sequencing studies and are processed using standardized pipelines to ensure consistency and comparability across studies.
+**⏱️ Estimated time:** 1-2 hours for complete pipeline (mostly unattended)
 
-## Data Processing
+## Documentation
 
-The metagenomic data sets are processed using a series of bioinformatics tools and pipelines. The raw sequencing data is first quality-checked and filtered to remove low-quality reads. The filtered reads are then taxonomically classified and functionally annotated using established databases and algorithms. The resulting data is organized into a structured format, allowing for easy access and analysis.
+- **[USER_GUIDE.md](./USER_GUIDE.md)** - Query BigQuery tables, setup instructions, examples (for data users)
+- **[CLAUDE.md](./CLAUDE.md)** - Pipeline architecture and execution guide (for developers/maintainers)
+- **[table_metadata.json](./table_metadata.json)** - Current table statistics (auto-generated)
+- **[justfile](./justfile)** - All available pipeline commands with descriptions
 
-### Data storage and Access
+## Project Overview
 
-The curated metagenomic metadata are stored in csv files in a GitHub repository: [curatedMetagenomicData](https://github.com/waldronlab/curatedMetagenomicDataCuration
+This ETL pipeline processes metagenomic samples from the [curatedMetagenomicsNextflow](https://github.com/seandavi/curatedMetagenomicsNextflow) pipeline, combining per-sample TSV files into unified BigQuery tables for efficient querying and analysis.
 
-The processed data are computed using the [curatedMetagenomicsNextflow](https://github.com/seandavi/curatedMetagenomicsNextflow) pipeline. The processed data are stored in a google cloud storage bucket: `gs://cmgd-data/results/cMDv4/{sample_id}/`.
+**Pipeline Flow:**
+1. **Source:** Per-sample files in GCS (`gs://cmgd-data/results/cMDv4/{sample_id}/`)
+2. **Transform:** Combine samples into BigQuery tables (ext → src → stg layers)
+3. **Output:** Query-optimized tables + Parquet exports for distribution
 
-Files stored per sample include:
+**Data Sources:**
+- Raw sample files: [curatedMetagenomicsNextflow](https://github.com/seandavi/curatedMetagenomicsNextflow)
+- Curated metadata: [curatedMetagenomicDataCuration](https://github.com/waldronlab/curatedMetagenomicDataCuration)
 
-| File Name | Description |
-| --------- | ----------- |
-| `metaphlan_markers/marker_abundance.tsv.gz` | Taxonomic marker abundance profiles for the sample, two columns: marker identifier and abundance value. |
-| `metaphlan_markers/marker_presence.tsv.gz` | Taxonomic marker presence/absence profiles for the sample, two columns: marker identifier and presence/absence value. |
-| `metaphlan_markers/marker_rel_ab_w_read_stats.tsv.gz` | Taxonomic marker relative abundance with read statistics for the sample, multiple columns including marker identifier, relative abundance, and read statistics. |
-| `metaphlan_lists/metaphlan_unknown_list.tsv.gz` | List of unknown taxa identified in the sample, two columns: taxon identifier and count of unknown reads. |
-| `metaphlan_lists/metaphlan_viruses_list.tsv.gz` | List of viral taxa identified in the sample, two columns: taxon identifier and count of viral reads. |
-| `strainphlan_markers/metaphlan.json.bz2` | strainphlan marker information for the sample in JSON format. |
+## Architecture
 
-### Sample ID Mapping
+The pipeline uses a 3-layer design:
 
-The `sample_id` used throughout the ETL pipeline is an MD5 hash that uniquely identifies each sample. To map these hashes back to their original SRA accessions and study information, we maintain a `sample_id_map` table in BigQuery.
+1. **External Tables (ext_*)** - Point to raw GCS files, no data movement
+2. **Source Views (src_*)** - Add sample_id extraction, lightweight transformations
+3. **Staging Tables (stg_*)** - Materialized, typed, clustered for production queries
 
-The mapping table (`src_sample_id_map`) contains:
+**Reference Tables:**
+- `src_sample_id_map` - Maps MD5 sample_id to SRA accessions and study names
+- `sra_accessions` - Full NCBI SRA metadata
 
-| Field | Description |
-| ----- | ----------- |
-| `sample_id` | MD5 hash used as the sample identifier (e.g., `96590c0f73176f4ab57a01297d849cf5`) |
-| `run_ids` | SRA run accession(s) associated with this sample (e.g., `ERR1398129`) |
-| `sample_name` | Original sample name from the study (e.g., `nHF511704`) |
-| `study_name` | Study identifier from curatedMetagenomicData (e.g., `LiJ_2017`) |
+See [CLAUDE.md](./CLAUDE.md) for detailed architecture and [table_metadata.json](./table_metadata.json) for current table statistics.
 
-This table is loaded from `sample_id_map.csv` using the `load_sample_id_map_to_bigquery.py` script.
+## Technologies
+
+- **Python 3.11+** with [uv](https://github.com/astral-sh/uv) package manager
+- **BigQuery** for data warehouse and initial querying
+- **DuckDB** for local analytics
+- **Parquet** for columnar distribution format
+- **just** for task orchestration ([justfile](https://github.com/casey/just))
+
+## Contributing
+
+This is part of the curatedMetagenomicData project providing uniformly processed metagenomic datasets to the scientific community. The data is derived from publicly available metagenomic sequencing studies processed using standardized pipelines for consistency and comparability.
