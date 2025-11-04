@@ -1,0 +1,762 @@
+{
+  "metadata_generated": "2025-11-04T15:34:19.046630",
+  "project_id": "curatedmetagenomicdata",
+  "dataset_id": "curatedmetagenomicsdata",
+  "dataset_location": "US",
+  "dataset_created": "2025-11-04T13:54:36.461000+00:00",
+  "dataset_modified": "2025-11-04T13:54:36.461000+00:00",
+  "tables": {
+    "ext_marker_abundance": {
+      "table_id": "ext_marker_abundance",
+      "full_table_id": "curatedmetagenomicdata.curatedmetagenomicsdata.ext_marker_abundance",
+      "table_type": "EXTERNAL",
+      "created": "2025-11-04T13:55:14.383000+00:00",
+      "modified": "2025-11-04T13:55:14.534000+00:00",
+      "schema": [
+        {
+          "name": "marker_id",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "abundance",
+          "type": "FLOAT",
+          "mode": "NULLABLE",
+          "description": null
+        }
+      ],
+      "num_fields": 2,
+      "num_rows": 0,
+      "num_bytes": 0,
+      "size_gb": 0,
+      "clustering_fields": [],
+      "external_config": {
+        "source_format": "CSV",
+        "source_uris": [
+          "gs://cmgd-data/results/cMDv4/*/metaphlan_markers/marker_abundance.tsv.gz"
+        ],
+        "num_source_uris": 1,
+        "compression": "GZIP",
+        "csv_options": {
+          "skip_leading_rows": 4,
+          "field_delimiter": "\t"
+        }
+      }
+    },
+    "ext_marker_presence": {
+      "table_id": "ext_marker_presence",
+      "full_table_id": "curatedmetagenomicdata.curatedmetagenomicsdata.ext_marker_presence",
+      "table_type": "EXTERNAL",
+      "created": "2025-11-04T13:59:53.948000+00:00",
+      "modified": "2025-11-04T13:59:53.978000+00:00",
+      "schema": [
+        {
+          "name": "marker_id",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "presence",
+          "type": "INTEGER",
+          "mode": "NULLABLE",
+          "description": null
+        }
+      ],
+      "num_fields": 2,
+      "num_rows": 0,
+      "num_bytes": 0,
+      "size_gb": 0,
+      "clustering_fields": [],
+      "external_config": {
+        "source_format": "CSV",
+        "source_uris": [
+          "gs://cmgd-data/results/cMDv4/*/metaphlan_markers/marker_presence.tsv.gz"
+        ],
+        "num_source_uris": 1,
+        "compression": "GZIP",
+        "csv_options": {
+          "skip_leading_rows": 4,
+          "field_delimiter": "\t"
+        }
+      }
+    },
+    "ext_marker_rel_ab_w_read_stats": {
+      "table_id": "ext_marker_rel_ab_w_read_stats",
+      "full_table_id": "curatedmetagenomicdata.curatedmetagenomicsdata.ext_marker_rel_ab_w_read_stats",
+      "table_type": "EXTERNAL",
+      "created": "2025-11-04T14:36:19.359000+00:00",
+      "modified": "2025-11-04T14:36:19.396000+00:00",
+      "schema": [
+        {
+          "name": "clade_name",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "clade_taxid",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "relative_abundance",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "coverage",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "estimated_reads",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": null
+        }
+      ],
+      "num_fields": 5,
+      "num_rows": 0,
+      "num_bytes": 0,
+      "size_gb": 0,
+      "clustering_fields": [],
+      "external_config": {
+        "source_format": "CSV",
+        "source_uris": [
+          "gs://cmgd-data/results/cMDv4/*/metaphlan_markers/marker_rel_ab_w_read_stats.tsv.gz"
+        ],
+        "num_source_uris": 1,
+        "compression": "GZIP",
+        "csv_options": {
+          "skip_leading_rows": 6,
+          "field_delimiter": "\t"
+        }
+      }
+    },
+    "ext_metaphlan_unknown_list": {
+      "table_id": "ext_metaphlan_unknown_list",
+      "full_table_id": "curatedmetagenomicdata.curatedmetagenomicsdata.ext_metaphlan_unknown_list",
+      "table_type": "EXTERNAL",
+      "created": "2025-11-04T15:20:29.438000+00:00",
+      "modified": "2025-11-04T15:20:29.476000+00:00",
+      "schema": [
+        {
+          "name": "clade_name",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "ncbi_tax_id",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "relative_abundance",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": null
+        }
+      ],
+      "num_fields": 3,
+      "num_rows": 0,
+      "num_bytes": 0,
+      "size_gb": 0,
+      "clustering_fields": [],
+      "external_config": {
+        "source_format": "CSV",
+        "source_uris": [
+          "gs://cmgd-data/results/cMDv4/*/metaphlan_lists/metaphlan_unknown_list.tsv.gz"
+        ],
+        "num_source_uris": 1,
+        "compression": "GZIP",
+        "csv_options": {
+          "skip_leading_rows": 5,
+          "field_delimiter": "\t"
+        }
+      }
+    },
+    "ext_metaphlan_viruses_list": {
+      "table_id": "ext_metaphlan_viruses_list",
+      "full_table_id": "curatedmetagenomicdata.curatedmetagenomicsdata.ext_metaphlan_viruses_list",
+      "table_type": "EXTERNAL",
+      "created": "2025-11-04T14:31:24.902000+00:00",
+      "modified": "2025-11-04T14:31:24.923000+00:00",
+      "schema": [
+        {
+          "name": "mv_group_cluster",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "genome_name",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "length",
+          "type": "INTEGER",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "breadth_of_coverage",
+          "type": "FLOAT",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "mapping_reads_count",
+          "type": "INTEGER",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "rpkm",
+          "type": "FLOAT",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "depth_of_coverage_mean",
+          "type": "FLOAT",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "depth_of_coverage_median",
+          "type": "FLOAT",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "mv_group_type",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "assigned_taxonomy",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "first_genome_in_cluster",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "other_genomes_in_cluster",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": null
+        }
+      ],
+      "num_fields": 12,
+      "num_rows": 0,
+      "num_bytes": 0,
+      "size_gb": 0,
+      "clustering_fields": [],
+      "external_config": {
+        "source_format": "CSV",
+        "source_uris": [
+          "gs://cmgd-data/results/cMDv4/*/metaphlan_lists/metaphlan_viruses_list.tsv.gz"
+        ],
+        "num_source_uris": 1,
+        "compression": "GZIP",
+        "csv_options": {
+          "skip_leading_rows": 4,
+          "field_delimiter": "\t"
+        }
+      }
+    },
+    "src_marker_abundance": {
+      "table_id": "src_marker_abundance",
+      "full_table_id": "curatedmetagenomicdata.curatedmetagenomicsdata.src_marker_abundance",
+      "table_type": "VIEW",
+      "created": "2025-11-04T14:47:31.214000+00:00",
+      "modified": "2025-11-04T14:47:31.591000+00:00",
+      "schema": [
+        {
+          "name": "sample_id",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "marker_id",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "abundance",
+          "type": "FLOAT",
+          "mode": "NULLABLE",
+          "description": null
+        }
+      ],
+      "num_fields": 3,
+      "num_rows": null,
+      "num_bytes": null,
+      "size_gb": null,
+      "clustering_fields": [],
+      "view_query": "\n        SELECT\n            REGEXP_EXTRACT(_FILE_NAME, r'/cMDv4/([^/]+)/') as sample_id,\n            marker_id,\n            abundance\n        FROM `curatedmetagenomicdata.curatedmetagenomicsdata.ext_marker_abundance`\n    "
+    },
+    "src_marker_presence": {
+      "table_id": "src_marker_presence",
+      "full_table_id": "curatedmetagenomicdata.curatedmetagenomicsdata.src_marker_presence",
+      "table_type": "VIEW",
+      "created": "2025-11-04T14:47:31.779000+00:00",
+      "modified": "2025-11-04T14:47:32.038000+00:00",
+      "schema": [
+        {
+          "name": "sample_id",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "marker_id",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "presence",
+          "type": "INTEGER",
+          "mode": "NULLABLE",
+          "description": null
+        }
+      ],
+      "num_fields": 3,
+      "num_rows": null,
+      "num_bytes": null,
+      "size_gb": null,
+      "clustering_fields": [],
+      "view_query": "\n        SELECT\n            REGEXP_EXTRACT(_FILE_NAME, r'/cMDv4/([^/]+)/') as sample_id,\n            marker_id,\n            presence\n        FROM `curatedmetagenomicdata.curatedmetagenomicsdata.ext_marker_presence`\n    "
+    },
+    "src_marker_rel_ab_w_read_stats": {
+      "table_id": "src_marker_rel_ab_w_read_stats",
+      "full_table_id": "curatedmetagenomicdata.curatedmetagenomicsdata.src_marker_rel_ab_w_read_stats",
+      "table_type": "VIEW",
+      "created": "2025-11-04T14:47:32.220000+00:00",
+      "modified": "2025-11-04T14:47:32.558000+00:00",
+      "schema": [
+        {
+          "name": "sample_id",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "clade_name",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "clade_taxid",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "relative_abundance",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "coverage",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "estimated_reads",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": null
+        }
+      ],
+      "num_fields": 6,
+      "num_rows": null,
+      "num_bytes": null,
+      "size_gb": null,
+      "clustering_fields": [],
+      "view_query": "\n        SELECT\n            REGEXP_EXTRACT(_FILE_NAME, r'/cMDv4/([^/]+)/') as sample_id,\n            clade_name,\n            clade_taxid,\n            relative_abundance,\n            coverage,\n            estimated_reads\n        FROM `curatedmetagenomicdata.curatedmetagenomicsdata.ext_marker_rel_ab_w_read_stats`\n    "
+    },
+    "src_metaphlan_unknown_list": {
+      "table_id": "src_metaphlan_unknown_list",
+      "full_table_id": "curatedmetagenomicdata.curatedmetagenomicsdata.src_metaphlan_unknown_list",
+      "table_type": "VIEW",
+      "created": "2025-11-04T15:20:48.285000+00:00",
+      "modified": "2025-11-04T15:20:48.517000+00:00",
+      "schema": [
+        {
+          "name": "sample_id",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "clade_name",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "ncbi_tax_id",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "relative_abundance",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": null
+        }
+      ],
+      "num_fields": 4,
+      "num_rows": null,
+      "num_bytes": null,
+      "size_gb": null,
+      "clustering_fields": [],
+      "view_query": "\n        SELECT\n            REGEXP_EXTRACT(_FILE_NAME, r'/cMDv4/([^/]+)/') as sample_id,\n            clade_name,\n            ncbi_tax_id,\n            relative_abundance\n        FROM `curatedmetagenomicdata.curatedmetagenomicsdata.ext_metaphlan_unknown_list`\n    "
+    },
+    "src_metaphlan_viruses_list": {
+      "table_id": "src_metaphlan_viruses_list",
+      "full_table_id": "curatedmetagenomicdata.curatedmetagenomicsdata.src_metaphlan_viruses_list",
+      "table_type": "VIEW",
+      "created": "2025-11-04T14:47:33.702000+00:00",
+      "modified": "2025-11-04T14:47:33.968000+00:00",
+      "schema": [
+        {
+          "name": "sample_id",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "mv_group_cluster",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "genome_name",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "length",
+          "type": "INTEGER",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "breadth_of_coverage",
+          "type": "FLOAT",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "mapping_reads_count",
+          "type": "INTEGER",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "rpkm",
+          "type": "FLOAT",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "depth_of_coverage_mean",
+          "type": "FLOAT",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "depth_of_coverage_median",
+          "type": "FLOAT",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "mv_group_type",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "assigned_taxonomy",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "first_genome_in_cluster",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "other_genomes_in_cluster",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": null
+        }
+      ],
+      "num_fields": 13,
+      "num_rows": null,
+      "num_bytes": null,
+      "size_gb": null,
+      "clustering_fields": [],
+      "view_query": "\n        SELECT\n            REGEXP_EXTRACT(_FILE_NAME, r'/cMDv4/([^/]+)/') as sample_id,\n            mv_group_cluster,\n            genome_name,\n            length,\n            breadth_of_coverage,\n            mapping_reads_count,\n            rpkm,\n            depth_of_coverage_mean,\n            depth_of_coverage_median,\n            mv_group_type,\n            assigned_taxonomy,\n            first_genome_in_cluster,\n            other_genomes_in_cluster\n        FROM `curatedmetagenomicdata.curatedmetagenomicsdata.ext_metaphlan_viruses_list`\n    "
+    },
+    "stg_marker_abundance": {
+      "table_id": "stg_marker_abundance",
+      "full_table_id": "curatedmetagenomicdata.curatedmetagenomicsdata.stg_marker_abundance",
+      "table_type": "TABLE",
+      "created": "2025-11-04T14:50:10.116000+00:00",
+      "modified": "2025-11-04T15:23:16.638000+00:00",
+      "schema": [
+        {
+          "name": "sample_id",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "marker_id",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "abundance",
+          "type": "FLOAT",
+          "mode": "NULLABLE",
+          "description": null
+        }
+      ],
+      "num_fields": 3,
+      "num_rows": 1890158089,
+      "num_bytes": 144579979324,
+      "size_gb": 134.65,
+      "clustering_fields": [
+        "sample_id"
+      ]
+    },
+    "stg_marker_presence": {
+      "table_id": "stg_marker_presence",
+      "full_table_id": "curatedmetagenomicdata.curatedmetagenomicsdata.stg_marker_presence",
+      "table_type": "TABLE",
+      "created": "2025-11-04T14:52:35.195000+00:00",
+      "modified": "2025-11-04T15:25:31.912000+00:00",
+      "schema": [
+        {
+          "name": "sample_id",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "marker_id",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "presence",
+          "type": "INTEGER",
+          "mode": "NULLABLE",
+          "description": null
+        }
+      ],
+      "num_fields": 3,
+      "num_rows": 1816422405,
+      "num_bytes": 138748166307,
+      "size_gb": 129.22,
+      "clustering_fields": [
+        "sample_id"
+      ]
+    },
+    "stg_marker_rel_ab_w_read_stats": {
+      "table_id": "stg_marker_rel_ab_w_read_stats",
+      "full_table_id": "curatedmetagenomicdata.curatedmetagenomicsdata.stg_marker_rel_ab_w_read_stats",
+      "table_type": "TABLE",
+      "created": "2025-11-04T14:54:34.267000+00:00",
+      "modified": "2025-11-04T15:27:28.765000+00:00",
+      "schema": [
+        {
+          "name": "sample_id",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "clade_name",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "clade_taxid",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "relative_abundance",
+          "type": "FLOAT",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "coverage",
+          "type": "FLOAT",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "estimated_reads",
+          "type": "INTEGER",
+          "mode": "NULLABLE",
+          "description": null
+        }
+      ],
+      "num_fields": 6,
+      "num_rows": 44421507,
+      "num_bytes": 8364718530,
+      "size_gb": 7.79,
+      "clustering_fields": [
+        "sample_id"
+      ]
+    },
+    "stg_metaphlan_viruses_list": {
+      "table_id": "stg_metaphlan_viruses_list",
+      "full_table_id": "curatedmetagenomicdata.curatedmetagenomicsdata.stg_metaphlan_viruses_list",
+      "table_type": "TABLE",
+      "created": "2025-11-04T14:58:38.168000+00:00",
+      "modified": "2025-11-04T15:31:29.977000+00:00",
+      "schema": [
+        {
+          "name": "sample_id",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "mv_group_cluster",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "genome_name",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "length",
+          "type": "INTEGER",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "breadth_of_coverage",
+          "type": "FLOAT",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "mapping_reads_count",
+          "type": "INTEGER",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "rpkm",
+          "type": "FLOAT",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "depth_of_coverage_mean",
+          "type": "FLOAT",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "depth_of_coverage_median",
+          "type": "FLOAT",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "mv_group_type",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "assigned_taxonomy",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "first_genome_in_cluster",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "other_genomes_in_cluster",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": null
+        }
+      ],
+      "num_fields": 13,
+      "num_rows": 1587185,
+      "num_bytes": 354557647,
+      "size_gb": 0.33,
+      "clustering_fields": [
+        "sample_id"
+      ]
+    }
+  },
+  "summary": {
+    "total_tables": 14,
+    "by_type": {
+      "EXTERNAL": 5,
+      "VIEW": 5,
+      "TABLE": 4
+    },
+    "by_prefix": {
+      "ext_": 5,
+      "src_": 5,
+      "stg_": 4
+    },
+    "total_rows": 3752589186,
+    "total_size_gb": 271.99
+  }
+}
