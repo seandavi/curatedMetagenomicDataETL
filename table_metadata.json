@@ -1,5 +1,5 @@
 {
-  "metadata_generated": "2025-11-04T15:34:19.046630",
+  "metadata_generated": "2025-11-04T16:13:43.120652",
   "project_id": "curatedmetagenomicdata",
   "dataset_id": "curatedmetagenomicsdata",
   "dataset_location": "US",
@@ -529,6 +529,44 @@
       "clustering_fields": [],
       "view_query": "\n        SELECT\n            REGEXP_EXTRACT(_FILE_NAME, r'/cMDv4/([^/]+)/') as sample_id,\n            mv_group_cluster,\n            genome_name,\n            length,\n            breadth_of_coverage,\n            mapping_reads_count,\n            rpkm,\n            depth_of_coverage_mean,\n            depth_of_coverage_median,\n            mv_group_type,\n            assigned_taxonomy,\n            first_genome_in_cluster,\n            other_genomes_in_cluster\n        FROM `curatedmetagenomicdata.curatedmetagenomicsdata.ext_metaphlan_viruses_list`\n    "
     },
+    "src_sample_id_map": {
+      "table_id": "src_sample_id_map",
+      "full_table_id": "curatedmetagenomicdata.curatedmetagenomicsdata.src_sample_id_map",
+      "table_type": "TABLE",
+      "created": "2025-11-04T16:11:37.467000+00:00",
+      "modified": "2025-11-04T16:11:37.467000+00:00",
+      "schema": [
+        {
+          "name": "sample_id",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "run_ids",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "sample_name",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": null
+        },
+        {
+          "name": "study_name",
+          "type": "STRING",
+          "mode": "NULLABLE",
+          "description": null
+        }
+      ],
+      "num_fields": 4,
+      "num_rows": 61485,
+      "num_bytes": 4793681,
+      "size_gb": 0.0,
+      "clustering_fields": []
+    },
     "stg_marker_abundance": {
       "table_id": "stg_marker_abundance",
       "full_table_id": "curatedmetagenomicdata.curatedmetagenomicsdata.stg_marker_abundance",
@@ -745,18 +783,18 @@
     }
   },
   "summary": {
-    "total_tables": 14,
+    "total_tables": 15,
     "by_type": {
       "EXTERNAL": 5,
       "VIEW": 5,
-      "TABLE": 4
+      "TABLE": 5
     },
     "by_prefix": {
       "ext_": 5,
-      "src_": 5,
+      "src_": 6,
       "stg_": 4
     },
-    "total_rows": 3752589186,
+    "total_rows": 3752650671,
     "total_size_gb": 271.99
   }
 }
