@@ -9,8 +9,13 @@ ETL pipeline for the [curatedMetagenomicData](https://github.com/waldronlab/cura
 uv sync
 
 # Run the complete ETL pipeline
-just setup
+just run-etl-pipeline
+```
 
+This will import data, create tables, and then export those tables to 
+google cloud storage as parquet files. 
+
+```bash
 # See all available commands
 just --list
 ```

@@ -13,7 +13,7 @@ default:
 
 # Run the complete ETL pipeline from scratch
 [group('pipeline')]
-setup: create-external-tables load-reference-tables create-src-stg-tables gather-metadata
+run-etl-pipeline: create-external-tables load-reference-tables create-src-stg-tables gather-metadata export-data
     @echo ""
     @echo "=========================================="
     @echo "✓ Complete ETL Pipeline Finished!"
@@ -76,6 +76,18 @@ gather-metadata:
     @echo "Step 4: Gathering Table Metadata"
     @echo "=========================================="
     uv run gather_table_metadata.py
+
+# Step 5: Export data to GCS
+[group('steps')]
+export-data:
+    @echo "=========================================="
+    @echo "Step 5: Exporting Data to GCS"
+    @echo "=========================================="
+    uv run bq query --use_legacy_sql=false < exports.sql
+    @echo "✓ Data exported to GCS"
+    @echo "Next steps:"
+    @echo "  - Review the exported data in GCS"
+    @echo "  - currently exporting to gs://cmgd-exports/cMDv4/"
 
 # =============================================================================
 # Incremental/Maintenance Tasks

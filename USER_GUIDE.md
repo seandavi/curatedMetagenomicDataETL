@@ -97,7 +97,7 @@ gcloud config set project curatedmetagenomicdata
 # Run a query
 bq query --use_legacy_sql=false \
   'SELECT sample_id, COUNT(*) as marker_count
-   FROM `curatedmetagenomicdata.curatedmetagenomicsdata.stg_marker_abundance`
+   FROM `curatedmetagenomicsdata.stg_marker_abundance`
    GROUP BY sample_id
    LIMIT 10'
 ```
@@ -121,7 +121,7 @@ SELECT
     sample_id,
     marker_id,
     abundance
-FROM `curatedmetagenomicdata.curatedmetagenomicsdata.stg_marker_abundance`
+FROM `curatedmetagenomicsdata.stg_marker_abundance`
 WHERE sample_id = 'YOUR_SAMPLE_ID'
 LIMIT 100
 """
@@ -148,7 +148,7 @@ SELECT
     sample_id,
     marker_id,
     abundance
-FROM `curatedmetagenomicdata.curatedmetagenomicsdata.stg_marker_abundance`
+FROM `curatedmetagenomicsdata.stg_marker_abundance`
 LIMIT 100
 "
 
@@ -164,7 +164,7 @@ head(df)
 
 ```sql
 SELECT *
-FROM `curatedmetagenomicdata.curatedmetagenomicsdata.stg_marker_abundance`
+FROM `curatedmetagenomicsdata.stg_marker_abundance`
 WHERE sample_id = '00003b3459eb4248543210b603ecb1a9'
 LIMIT 100;
 ```
@@ -180,7 +180,7 @@ SELECT
     AVG(abundance) as avg_abundance,
     MAX(abundance) as max_abundance,
     MIN(abundance) as min_abundance
-FROM `curatedmetagenomicdata.curatedmetagenomicsdata.stg_marker_abundance`
+FROM `curatedmetagenomicsdata.stg_marker_abundance`
 GROUP BY marker_id
 ORDER BY avg_abundance DESC
 LIMIT 20;
@@ -195,7 +195,7 @@ SELECT
     relative_abundance,
     coverage,
     estimated_reads
-FROM `curatedmetagenomicdata.curatedmetagenomicsdata.stg_marker_rel_ab_w_read_stats`
+FROM `curatedmetagenomicsdata.stg_marker_rel_ab_w_read_stats`
 WHERE
     sample_id IN ('sample1', 'sample2', 'sample3')
     AND clade_name LIKE 'k__%'  -- Kingdom level only
@@ -209,7 +209,7 @@ SELECT
     sample_id,
     clade_name,
     relative_abundance
-FROM `curatedmetagenomicdata.curatedmetagenomicsdata.stg_marker_rel_ab_w_read_stats`
+FROM `curatedmetagenomicsdata.stg_marker_rel_ab_w_read_stats`
 WHERE
     clade_name LIKE '%Bacteroides%'
     AND relative_abundance > 10.0  -- At least 10% abundance
@@ -225,7 +225,7 @@ SELECT
     COUNT(*) as viral_count,
     SUM(mapping_reads_count) as total_viral_reads,
     AVG(breadth_of_coverage) as avg_coverage
-FROM `curatedmetagenomicdata.curatedmetagenomicsdata.stg_metaphlan_viruses_list`
+FROM `curatedmetagenomicsdata.stg_metaphlan_viruses_list`
 GROUP BY sample_id
 HAVING viral_count > 5  -- Samples with more than 5 viruses
 ORDER BY total_viral_reads DESC
@@ -240,7 +240,7 @@ WITH sample_markers AS (
     sample_id,
     marker_id,
     presence
-  FROM `curatedmetagenomicdata.curatedmetagenomicsdata.stg_marker_presence`
+  FROM `curatedmetagenomicsdata.stg_marker_presence`
   WHERE sample_id IN ('sample1', 'sample2', 'sample3')
 )
 SELECT
@@ -264,8 +264,8 @@ SELECT
     data.sample_id,
     data.clade_name,
     data.relative_abundance
-FROM `curatedmetagenomicdata.curatedmetagenomicsdata.stg_marker_rel_ab_w_read_stats` AS data
-JOIN `curatedmetagenomicdata.curatedmetagenomicsdata.src_sample_id_map` AS map
+FROM `curatedmetagenomicsdata.stg_marker_rel_ab_w_read_stats` AS data
+JOIN `curatedmetagenomicsdata.src_sample_id_map` AS map
     ON data.sample_id = map.sample_id
 WHERE
     map.study_name = 'LiJ_2017'  -- Filter by specific study
@@ -286,8 +286,8 @@ SELECT
     map.sample_name,
     map.study_name,
     COUNT(DISTINCT data.marker_id) as marker_count
-FROM `curatedmetagenomicdata.curatedmetagenomicsdata.src_sample_id_map` AS map
-LEFT JOIN `curatedmetagenomicdata.curatedmetagenomicsdata.stg_marker_abundance` AS data
+FROM `curatedmetagenomicsdata.src_sample_id_map` AS map
+LEFT JOIN `curatedmetagenomicsdata.stg_marker_abundance` AS data
     ON map.sample_id = data.sample_id
 WHERE map.study_name IN ('LiJ_2017', 'KieserS_2017')
 GROUP BY map.sample_id, map.run_ids, map.sample_name, map.study_name
@@ -304,7 +304,7 @@ EXPORT DATA OPTIONS(
   header=true
 ) AS
 SELECT *
-FROM `curatedmetagenomicdata.curatedmetagenomicsdata.stg_marker_abundance`
+FROM `curatedmetagenomicsdata.stg_marker_abundance`
 WHERE sample_id IN ('sample1', 'sample2');
 ```
 
@@ -336,7 +336,7 @@ Always use `LIMIT` when developing queries to avoid scanning large amounts of da
 
 ```sql
 SELECT *
-FROM `curatedmetagenomicdata.curatedmetagenomicsdata.stg_marker_abundance`
+FROM `curatedmetagenomicsdata.stg_marker_abundance`
 LIMIT 100;  -- Always add LIMIT during development
 ```
 
@@ -362,7 +362,7 @@ Use table sampling to work with a subset during development:
 
 ```sql
 SELECT *
-FROM `curatedmetagenomicdata.curatedmetagenomicsdata.stg_marker_abundance` TABLESAMPLE SYSTEM (1 PERCENT)
+FROM `curatedmetagenomicsdata.stg_marker_abundance` TABLESAMPLE SYSTEM (1 PERCENT)
 LIMIT 1000;
 ```
 
@@ -467,7 +467,7 @@ client = bigquery.Client(project='curatedmetagenomicdata')
 # Step 1: Get list of samples
 samples_query = """
 SELECT DISTINCT sample_id
-FROM `curatedmetagenomicdata.curatedmetagenomicsdata.stg_marker_rel_ab_w_read_stats`
+FROM `curatedmetagenomicsdata.stg_marker_rel_ab_w_read_stats`
 LIMIT 10
 """
 samples = [row.sample_id for row in client.query(samples_query).result()]
@@ -478,7 +478,7 @@ SELECT
     sample_id,
     clade_name,
     relative_abundance
-FROM `curatedmetagenomicdata.curatedmetagenomicsdata.stg_marker_rel_ab_w_read_stats`
+FROM `curatedmetagenomicsdata.stg_marker_rel_ab_w_read_stats`
 WHERE
     sample_id IN UNNEST({samples})
     AND clade_name LIKE 'k__%'
