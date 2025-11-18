@@ -83,7 +83,7 @@ just create-external-tables
 just load-reference-tables
 
 # Run the full pipeline
-just setup
+just run-etl-pipeline
 ```
 
 See [CLAUDE.md](./CLAUDE.md) for detailed architecture and [USER_GUIDE.md](./USER_GUIDE.md) for usage examples.

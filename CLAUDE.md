@@ -38,7 +38,7 @@ just install-deps
 just --list
 
 # Run the complete pipeline
-just setup
+just run-etl-pipeline
 
 # Run individual steps
 just create-external-tables
@@ -115,7 +115,7 @@ The ETL pipeline has clear dependencies. Use the provided `justfile` to manage e
 ### Quick Start
 ```bash
 # Run the entire pipeline from scratch
-just setup
+just run-etl-pipeline
 
 # See all available commands
 just --list
