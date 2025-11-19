@@ -1,7 +1,7 @@
 # curatedMetagenomicDataETL Pipeline
 #
 # Run `just --list` to see all available commands
-# Run `just setup` to run the entire pipeline from scratch
+# Run `just run-etl-pipeline` to run the entire pipeline from scratch
 
 # Default recipe - show help
 default:
