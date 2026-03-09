@@ -10,3 +10,6 @@ wheels/
 .venv
 *parquet
 cmgd.duckdb
+
+# env files
+.env
