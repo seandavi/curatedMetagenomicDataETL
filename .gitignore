@@ -13,3 +13,4 @@ cmgd.duckdb
 
 # env files
 .env
+*.duckdb
