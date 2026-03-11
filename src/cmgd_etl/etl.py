@@ -135,7 +135,7 @@ def main(
     copy (
         SELECT 
             *
-        FROM read_csv_auto({fl}, comment='#', delim='\t', header=false, null_padding=true, filename=true) a 
+        FROM read_csv_auto({fl}, comment='#', delim='\t', header=false, null_padding=true, filename=true, nullstr='-') a 
         join sample_id_map on split_part(a.filename, '/', 7) = sample_id
         where study_name = '{study_name}'
     ) to 
